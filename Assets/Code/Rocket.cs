@@ -66,7 +66,8 @@ public class Rocket : MonoBehaviour
 
         if (input.y > 0f)
         {
-            rb.AddForce(transform.up * thrustForce * input.y);
+            float adjustedThrust = thrustForce * 0.2f; // Adjust sensitivity here
+            rb.AddForce(transform.up * adjustedThrust * input.y);
         }
     }
 }

@@ -17,7 +17,7 @@ public class Planet : MonoBehaviour
             if (distance < minGravityDistance) continue;
 
             // Gravity falloff: smoother gameplay-friendly version (1 / distance)
-            float forceMagnitude = gravityStrength / distance;
+            float forceMagnitude = (gravityStrength * 10) / distance;
 
             // Optional: Clamp force
             forceMagnitude = Mathf.Min(forceMagnitude, maxGravityForce);
