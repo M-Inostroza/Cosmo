@@ -5,9 +5,14 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInput))]
 public class Rocket : MonoBehaviour
 {
-    [Header("Movement Settings")]
-    [SerializeField] private float thrustForce = 5f;
-    [SerializeField] private float rotationSpeed = 180f; // Degrees per second
+[Header("Movement Settings")]
+[SerializeField] private float thrustForce = 5f;
+[SerializeField] private float rotationSpeed = 180f; // Degrees per second
+
+[Header("Drag Settings")]
+[SerializeField] private float baseDrag = 0.5f;             // Constant linear damping
+[SerializeField] private float dragPerSpeed = 0.1f;         // Extra drag based on current speed
+[SerializeField] private float maxSpeed = 10f;              // Absolute velocity limit
 
     private Rigidbody2D rb;
     private PlayerInput playerInput;
@@ -16,6 +21,7 @@ public class Rocket : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.drag = baseDrag;
         playerInput = GetComponent<PlayerInput>();
         if (playerInput != null && playerInput.actions != null)
         {
@@ -38,6 +44,12 @@ public class Rocket : MonoBehaviour
     void Update()
     {
         HandleInput();
+    }
+
+    void FixedUpdate()
+    {
+        ApplyDynamicDrag();
+        ClampSpeed();
     }
 
     public void ApplyGravity(Vector2 force)
@@ -69,5 +81,20 @@ public class Rocket : MonoBehaviour
             float adjustedThrust = thrustForce * 0.2f; // Adjust sensitivity here
             rb.AddForce(transform.up * adjustedThrust * input.y);
         }
+    }
+
+    void ApplyDynamicDrag()
+    {
+        if (dragPerSpeed > 0f)
+            rb.drag = baseDrag + rb.velocity.magnitude * dragPerSpeed;
+        else
+            rb.drag = baseDrag;
+    }
+
+    void ClampSpeed()
+    {
+        if (maxSpeed <= 0f) return;
+        if (rb.velocity.magnitude > maxSpeed)
+            rb.velocity = rb.velocity.normalized * maxSpeed;
     }
 }
