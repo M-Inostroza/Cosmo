@@ -1,5 +1,8 @@
 using UnityEngine;
 
+using UnityEngine.InputSystem;
+
+[RequireComponent(typeof(PlayerInput))]
 public class Rocket : MonoBehaviour
 {
     [Header("Movement Settings")]
@@ -7,10 +10,29 @@ public class Rocket : MonoBehaviour
     [SerializeField] private float rotationSpeed = 180f; // Degrees per second
 
     private Rigidbody2D rb;
+    private PlayerInput playerInput;
+    private InputAction moveAction;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerInput = GetComponent<PlayerInput>();
+        if (playerInput != null && playerInput.actions != null)
+        {
+            moveAction = playerInput.actions["Move"];
+        }
+    }
+
+    void OnEnable()
+    {
+        if (moveAction != null)
+            moveAction.Enable();
+    }
+
+    void OnDisable()
+    {
+        if (moveAction != null)
+            moveAction.Disable();
     }
 
     void Update()
@@ -25,20 +47,26 @@ public class Rocket : MonoBehaviour
 
     void HandleInput()
     {
-        // Rotation (left/right arrows)
-        float rotationInput = 0f;
-        if (Input.GetKey(KeyCode.LeftArrow))
-            rotationInput = 1f; // Rotate counter-clockwise
-        else if (Input.GetKey(KeyCode.RightArrow))
-            rotationInput = -1f; // Rotate clockwise
+        Vector2 input = Vector2.zero;
+        if (moveAction != null)
+        {
+            input = moveAction.ReadValue<Vector2>();
+        }
 
+        // Fallback for desktop keyboard
+        if (input == Vector2.zero)
+        {
+            input.x = (Input.GetKey(KeyCode.LeftArrow) ? -1f : 0f) +
+                      (Input.GetKey(KeyCode.RightArrow) ? 1f : 0f);
+            input.y = Input.GetKey(KeyCode.UpArrow) ? 1f : 0f;
+        }
+
+        float rotationInput = -input.x; // Left = -1 -> rotate counter-clockwise
         rb.MoveRotation(rb.rotation + rotationInput * rotationSpeed * Time.deltaTime);
 
-        // Thrust (up arrow)
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (input.y > 0f)
         {
-            rb.AddForce(transform.up * thrustForce);
-            Debug.Log("Thrust applied: " + thrustForce);
+            rb.AddForce(transform.up * thrustForce * input.y);
         }
     }
 }
