@@ -3,8 +3,8 @@ using UnityEngine;
 public class Rocket : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float thrustForce = 5f;
-    public float rotationSpeed = 180f; // Degrees per second
+    [SerializeField] private float thrustForce = 5f;
+    [SerializeField] private float rotationSpeed = 180f; // Degrees per second
 
     private Rigidbody2D rb;
 

@@ -3,9 +3,9 @@ using UnityEngine;
 public class Planet : MonoBehaviour
 {
     [Header("Gravity Settings")]
-    public float gravityStrength = 100f;         // Base gravity strength
-    public float maxGravityForce = 50f;          // Clamp max force
-    public float minGravityDistance = 1f;        // Avoid divide-by-zero and too strong pull
+    [SerializeField] private float gravityStrength = 100f;         // Base gravity strength
+    [SerializeField] private float maxGravityForce = 50f;          // Clamp max force
+    [SerializeField] private float minGravityDistance = 1f;        // Avoid divide-by-zero and too strong pull
 
     void FixedUpdate()
     {

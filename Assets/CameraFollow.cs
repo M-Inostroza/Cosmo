@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform target;            // The rocket
-    public float smoothSpeed = 5f;      // Higher = snappier follow
-    public Vector3 offset = new Vector3(0f, 0f, -10f); // Default 2D camera position
+    [SerializeField] private Transform target;            // The rocket
+    [SerializeField] private float smoothSpeed = 5f;      // Higher = snappier follow
+    [SerializeField] private Vector3 offset = new Vector3(0f, 0f, -10f); // Default 2D camera position
 
     void LateUpdate()
     {

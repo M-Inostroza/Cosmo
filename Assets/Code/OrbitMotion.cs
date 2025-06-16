@@ -3,12 +3,12 @@ using UnityEngine;
 public class OrbitMotion : MonoBehaviour
 {
     [Header("Orbit Settings")]
-    public Transform orbitCenter;
-    public float orbitRadius = 10f;
-    public float orbitSpeed = 1f;       // Interpreted as "slow or fast", not degrees/sec
-    public float orbitScale = 100f;     // Scales world units for visual clarity
-    public float startAngle = 0f;
-    public bool clockwise = true;
+    [SerializeField] private Transform orbitCenter;
+    [SerializeField] private float orbitRadius = 10f;
+    [SerializeField] private float orbitSpeed = 1f;       // Interpreted as "slow or fast", not degrees/sec
+    [SerializeField] private float orbitScale = 100f;     // Scales world units for visual clarity
+    [SerializeField] private float startAngle = 0f;
+    [SerializeField] private bool clockwise = true;
 
     private float currentAngle;
 
