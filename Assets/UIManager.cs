@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI speedText;
     [SerializeField] private TextMeshProUGUI gravityText;
+    [SerializeField] private TextMeshProUGUI fuelText;
 
     private Vector2 lastGravityForce;
 
@@ -21,5 +22,9 @@ public class UIManager : MonoBehaviour
 
         // Calculate and display gravity
         gravityText.text = $"Gravity: {rocketRigidbody.GetComponent<Rocket>().GetLastGravityForce().magnitude:F2} N";
+
+        var resourceManager = FindObjectOfType<ResourceManager>();
+        fuelText.text = $"Fuel: {resourceManager.Fuel} / {resourceManager.MaxFuel}";
+
     }
 }

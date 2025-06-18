@@ -10,6 +10,8 @@ public class Rocket : MonoBehaviour
     [SerializeField] private float maxSpeed = 10f; // Max forward velocity
     [SerializeField] private SpriteRenderer thrustVisual;
 
+    [SerializeField] private ResourceManager resourceManager;
+
     private Rigidbody2D rb;
     private PlayerInput playerInput;
     private InputAction moveAction;
@@ -17,6 +19,9 @@ public class Rocket : MonoBehaviour
 
     private bool isThrusting = false;
 
+    // optimal orbital speed: 330 m/s - 370 m/s for low orbit - Green orbit (120 - 130 N)
+    // optimal orbital speed: 320 m/s - 355 m/s for mid orbit - Blue orbit (85 - 100 N)
+    // optimal orbital speed: 305 m/s - 326 m/s for mid orbit - Black orbit (50 - 60 N)
 
     void Awake()
     {
@@ -92,6 +97,10 @@ public class Rocket : MonoBehaviour
             {
                 rb.AddForce(transform.up * thrustForce * input.y);
             }
+
+            if (resourceManager != null)
+                resourceManager.Consume(10f);
+
         }
         else
         {
