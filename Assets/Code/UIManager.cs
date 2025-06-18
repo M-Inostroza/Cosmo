@@ -5,10 +5,14 @@ public class UIManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Rigidbody2D rocketRigidbody;
+    [SerializeField] private Transform planetTransform;
 
     [SerializeField] private TextMeshProUGUI speedText;
     [SerializeField] private TextMeshProUGUI gravityText;
     [SerializeField] private TextMeshProUGUI fuelText;
+    [SerializeField] private TextMeshProUGUI altitudeText;
+
+    [SerializeField] private float planetRadius = 50f;
 
     private Vector2 lastGravityForce;
 
@@ -26,5 +30,8 @@ public class UIManager : MonoBehaviour
         var resourceManager = FindObjectOfType<ResourceManager>();
         fuelText.text = $"Fuel: {resourceManager.Fuel} / {resourceManager.MaxFuel}";
 
+        float rawDistance = Vector2.Distance(rocketRigidbody.position, planetTransform.position);
+        float altitude = Mathf.Max(0f, rawDistance - planetRadius);
+        altitudeText.text = $"Altitude: {altitude:F1} m";
     }
 }

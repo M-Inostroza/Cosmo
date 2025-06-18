@@ -30,6 +30,5 @@ public class ResourceManager : MonoBehaviour
             return;
 
         fuel = Mathf.Max(fuel - whole, 0);
-        Debug.Log($"Consumed {whole} fuel. Remaining: {fuel}/{maxFuel}");
     }
 }

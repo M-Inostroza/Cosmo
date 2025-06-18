@@ -23,6 +23,10 @@ public class Rocket : MonoBehaviour
     // optimal orbital speed: 320 m/s - 355 m/s for mid orbit - Blue orbit (85 - 100 N)
     // optimal orbital speed: 305 m/s - 326 m/s for mid orbit - Black orbit (50 - 60 N)
 
+    // 630 - 920 Altitude Low orbit
+    // 1130 - 1640 Altitude Mid orbit
+    // 1832 - 2640 Altitude Mid orbit
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
