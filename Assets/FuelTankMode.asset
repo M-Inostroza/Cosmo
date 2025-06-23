@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f72ab6529621d6245987f529bdcb7b7b, type: 3}
+  m_Name: FuelTankMode
+  m_EditorClassIdentifier: 
+  modName: Fuel Tank
+  icon: {fileID: 1733269140551100019, guid: 41427eec1dd0610449bce624496dd157, type: 3}
+  prefab: {fileID: 7771073821002484397, guid: f5d0b6815aaa3a94180f588ee3526c42, type: 3}
+  description: Gives more Fuel
+  type: 2
+  powerUsage: 0
+  weight: 5
+  damage: 0
+  scanRange: 0
+  extraFuel: 50

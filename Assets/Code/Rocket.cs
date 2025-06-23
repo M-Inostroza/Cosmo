@@ -10,7 +10,6 @@ public class Rocket : MonoBehaviour
     [SerializeField] private float rotationSpeed = 180f;
     [SerializeField] private float maxSpeed = 10f;
     [SerializeField] private float thrustAccelerationTime = 2f;
-    [SerializeField] private float thrustSmoothing = 5f;
     [SerializeField] private float fallDamageThreshold = 8f;
 
 
@@ -23,22 +22,27 @@ public class Rocket : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private ResourceManager resourceManager;
+    [SerializeField] private ModManager modManager;
 
     private Rigidbody2D rb;
     private PlayerInput playerInput;
     private InputAction moveAction;
+    private float baseMass;
 
-
+    
     private Vector2 lastGravityForce;
     private float currentThrustPower = 0f;
     private bool isThrusting = false;
-    public bool flightEnabled = false;
+
+    public bool flightEnabled { get; private set; } = false;
+    public void EnableFlight() => flightEnabled = true;
 
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         playerInput = GetComponent<PlayerInput>();
+        baseMass = rb.mass;
 
         if (playerInput != null && playerInput.actions != null)
         {
@@ -144,7 +148,10 @@ public class Rocket : MonoBehaviour
         }
     }
 
-
+    public void RecalculateMass(float extraMass)
+    {
+        rb.mass = baseMass + extraMass;
+    }
 
     private void SetThrustVisuals(bool state)
     {

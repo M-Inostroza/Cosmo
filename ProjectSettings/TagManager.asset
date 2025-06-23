@@ -7,6 +7,7 @@ TagManager:
   - LaunchPad
   - Planet
   - Trash
+  - Asteroid
   layers:
   - Default
   - TransparentFX
@@ -14,10 +15,10 @@ TagManager:
   - Part
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Planet
+  - BG
+  - Divisory Lines
+  - Asteroid
   - 
   - 
   - 
