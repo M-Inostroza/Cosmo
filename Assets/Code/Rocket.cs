@@ -33,6 +33,7 @@ public class Rocket : MonoBehaviour
     private Vector2 lastGravityForce;
     private float currentThrustPower = 0f;
     private bool isThrusting = false;
+    private Vector2 cachedInput = Vector2.zero;
 
     public bool flightEnabled { get; private set; } = false;
     public void EnableFlight() => flightEnabled = true;
@@ -62,12 +63,13 @@ public class Rocket : MonoBehaviour
 
     void Update()
     {
-        HandleInput();
+        CacheInput();
     }
 
     void FixedUpdate()
     {
         isThrusting = false;
+        ApplyMovement();
     }
 
     public void ApplyGravity(Vector2 force)
@@ -76,29 +78,42 @@ public class Rocket : MonoBehaviour
         lastGravityForce = force;
     }
 
-    private void HandleInput()
+    private void CacheInput()
     {
         if (!flightEnabled)
+        {
+            cachedInput = Vector2.zero;
             return;
+        }
 
-        Vector2 input = Vector2.zero;
+        cachedInput = Vector2.zero;
 
         if (moveAction != null)
-            input = moveAction.ReadValue<Vector2>();
+            cachedInput = moveAction.ReadValue<Vector2>();
 
-        if (input == Vector2.zero)
+        if (cachedInput == Vector2.zero)
         {
-            input.x = (Input.GetKey(KeyCode.LeftArrow) ? -1f : 0f) +
-                      (Input.GetKey(KeyCode.RightArrow) ? 1f : 0f);
-            input.y = Input.GetKey(KeyCode.UpArrow) ? 1f : 0f;
+            cachedInput.x = (Input.GetKey(KeyCode.LeftArrow) ? -1f : 0f) +
+                            (Input.GetKey(KeyCode.RightArrow) ? 1f : 0f);
+            cachedInput.y = Input.GetKey(KeyCode.UpArrow) ? 1f : 0f;
+        }
+    }
+
+    private void ApplyMovement()
+    {
+        if (!flightEnabled)
+        {
+            currentThrustPower = 0f;
+            SetThrustVisuals(false);
+            return;
         }
 
         // Rotation
-        float rotationInput = -input.x;
-        rb.MoveRotation(rb.rotation + rotationInput * rotationSpeed * Time.deltaTime);
+        float rotationInput = -cachedInput.x;
+        rb.MoveRotation(rb.rotation + rotationInput * rotationSpeed * Time.fixedDeltaTime);
 
         // Thrust
-        if (input.y > 0f)
+        if (cachedInput.y > 0f)
         {
             bool hasFuel = resourceManager != null && resourceManager.Fuel > 0;
 
@@ -109,7 +124,7 @@ public class Rocket : MonoBehaviour
                 SetThrustVisuals(true);
 
                 // Smooth buildup
-                currentThrustPower += Time.deltaTime / thrustAccelerationTime;
+                currentThrustPower += Time.fixedDeltaTime / thrustAccelerationTime;
                 currentThrustPower = Mathf.Clamp01(currentThrustPower);
 
                 float velocityInThrustDir = Vector2.Dot(rb.linearVelocity, transform.up);
@@ -117,7 +132,7 @@ public class Rocket : MonoBehaviour
                 if (velocityInThrustDir < maxSpeed)
                 {
                     float curved = thrustCurve.Evaluate(currentThrustPower);
-                    rb.AddForce(transform.up * thrustForce * curved);
+                    rb.AddForce(transform.up * thrustForce * curved * Time.fixedDeltaTime);
                 }
 
                 resourceManager.Consume(fuelEfficiency);
