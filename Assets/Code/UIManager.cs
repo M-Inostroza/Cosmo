@@ -18,7 +18,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float planetRadius = 50f;
 
 
-    private Vector2 lastGravityForce;
+    private ResourceManager resourceManager;
+
+    void Start()
+    {
+        resourceManager = Object.FindFirstObjectByType<ResourceManager>();
+    }
 
     void Update()
     {
@@ -31,8 +36,8 @@ public class UIManager : MonoBehaviour
         // Calculate and display gravity  
         gravityText.text = $"Gravity: {rocketRigidbody.GetComponent<Rocket>().GetLastGravityForce().magnitude:F2} N";
 
-        var resourceManager = Object.FindFirstObjectByType<ResourceManager>();
-        fuelText.text = $"Fuel: {resourceManager.Fuel} / {resourceManager.MaxFuel}";
+        if (resourceManager != null)
+            fuelText.text = $"Fuel: {resourceManager.Fuel} / {resourceManager.MaxFuel}";
 
         float rawDistance = Vector2.Distance(rocketRigidbody.position, planetTransform.position);
         float altitude = Mathf.Max(0f, rawDistance - planetRadius);
