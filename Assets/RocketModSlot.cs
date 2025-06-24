@@ -14,7 +14,7 @@ public class RocketModSlot : MonoBehaviour
     private void Start()
     {
         rocket = GetComponentInParent<Rocket>();
-        modManager = FindFirstObjectByType<ModManager>();
+        modManager = ModManager.Instance;
     }
 
     public void AttachMod(RocketModData modData)

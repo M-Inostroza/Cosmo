@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ResourceManager : MonoBehaviour
 {
+    public static ResourceManager Instance { get; private set; }
     [Header("Fuel Settings")]
     [SerializeField] private int maxFuel = 100;
     [SerializeField] private int fuel = 100;
@@ -21,6 +22,13 @@ public class ResourceManager : MonoBehaviour
 
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
         fuel = Mathf.Clamp(fuel, 0, maxFuel);
         energy = Mathf.Clamp(energy, 0, maxEnergy);
     }

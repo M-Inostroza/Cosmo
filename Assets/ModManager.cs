@@ -4,9 +4,20 @@ using System.Collections.Generic;
 
 public class ModManager : MonoBehaviour
 {
+    public static ModManager Instance { get; private set; }
     public bool CanLaunch { get; private set; } = false;
 
     [SerializeField] private RocketModSlot[] modSlots;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     private void Update()
     {
