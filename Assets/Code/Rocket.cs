@@ -132,10 +132,10 @@ public class Rocket : MonoBehaviour
                 if (velocityInThrustDir < maxSpeed)
                 {
                     float curved = thrustCurve.Evaluate(currentThrustPower);
-                    rb.AddForce(transform.up * thrustForce * curved * Time.fixedDeltaTime);
+                    rb.AddForce(transform.up * thrustForce * curved);
                 }
 
-                resourceManager.Consume(fuelEfficiency);
+                resourceManager.ConsumeFuel(fuelEfficiency);
                 return;
             }
         }
@@ -185,4 +185,7 @@ public class Rocket : MonoBehaviour
     {
         return lastGravityForce;
     }
+
+    public ResourceManager GetResourceManager() => resourceManager;
+
 }

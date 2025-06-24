@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7320583728602910172}
   - component: {fileID: 5890743127745308005}
+  - component: {fileID: -8907679423258866043}
   m_Layer: 0
   m_Name: Mining Laser
   m_TagString: Untagged
@@ -87,3 +88,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-8907679423258866043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6611063892114973707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50ed3d97f600ec04ca72dd988998db49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyPerSecond: 4
+  fireKey: 32

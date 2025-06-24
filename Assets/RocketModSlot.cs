@@ -26,12 +26,31 @@ public class RocketModSlot : MonoBehaviour
             currentMod = Instantiate(modData.prefab, transform);
             currentMod.transform.localPosition = Vector3.zero;
             currentMod.SetActive(true);
+
+            var logic = currentMod.GetComponent<RocketModBehaviour>();
+            if (logic != null)
+            {
+                var resource = rocket.GetResourceManager();
+                if (resource != null)
+                {
+                    logic.Initialize(resource); // This is correct
+                    Debug.Log($"Initialized {modData.modName} with ResourceManager");
+                }
+                else
+                {
+                    Debug.LogError("ResourceManager not found on Rocket");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No RocketModBehaviour found on mod prefab");
+            }
+
+
+            Debug.Log($"Mod attached: {modData.modName} to {slotId}");
         }
 
         currentModData = modData;
-
-        if (rocket != null)
-            rocket.RecalculateMass(modManager.GetTotalModWeight());
     }
 
     public void ClearMod()

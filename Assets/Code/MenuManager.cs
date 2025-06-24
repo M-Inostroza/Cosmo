@@ -20,6 +20,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Canvas modPanel;
     [SerializeField] private Canvas HUDPanel;
 
+    [SerializeField] private ModManager modManager;
+    [SerializeField] private ModActionPanel modActionPanel;
+
     private Vector2 lastTouchPos;
     private bool isDragging = false;
 
@@ -75,6 +78,12 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    public void ShowModActionUI()
+    {
+        var mods = modManager.GetAllTriggerableMods();
+        modActionPanel.DisplayModButtons(mods);
+    }
+
     void RotateRig(float horizontalDelta)
     {
         if (cameraRig == null) return;
@@ -111,7 +120,7 @@ public class MenuManager : MonoBehaviour
     public void EnterFlyMode()
     {
         Debug.Log("Entering Fly Mode...");
-
+        ShowModActionUI();
         CameraFollow camFollow = Camera.main.GetComponent<CameraFollow>();
         if (camFollow != null)
         {

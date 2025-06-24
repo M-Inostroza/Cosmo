@@ -1,10 +1,41 @@
 using UnityEngine;
+using System.Collections.Generic;
+
 
 public class ModManager : MonoBehaviour
 {
     public bool CanLaunch { get; private set; } = false;
 
     [SerializeField] private RocketModSlot[] modSlots;
+
+    private void Update()
+    {
+        foreach (var slot in modSlots)
+        {
+            if (slot.IsOccupied && slot.GetComponentInChildren<RocketModBehaviour>() is RocketModBehaviour mod)
+            {
+                mod.OnModUpdate();
+            }
+        }
+    }
+
+    public IModTriggerable[] GetAllTriggerableMods()
+    {
+        List<IModTriggerable> result = new List<IModTriggerable>();
+
+        foreach (var slot in modSlots)
+        {
+            if (slot.IsOccupied)
+            {
+                var mod = slot.GetComponentInChildren<IModTriggerable>();
+                if (mod != null)
+                    result.Add(mod);
+            }
+        }
+
+        return result.ToArray();
+    }
+
 
     public void EnableLaunch()
     {

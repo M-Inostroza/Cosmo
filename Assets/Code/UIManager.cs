@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI speedText;
     [SerializeField] private TextMeshProUGUI gravityText;
     [SerializeField] private TextMeshProUGUI fuelText;
+    [SerializeField] private TextMeshProUGUI energyText;
     [SerializeField] private TextMeshProUGUI altitudeText;
     [SerializeField] private TextMeshProUGUI orbitZoneText;
 
@@ -37,7 +38,8 @@ public class UIManager : MonoBehaviour
         gravityText.text = $"Gravity: {rocketRigidbody.GetComponent<Rocket>().GetLastGravityForce().magnitude:F2} N";
 
         if (resourceManager != null)
-            fuelText.text = $"Fuel: {resourceManager.Fuel} / {resourceManager.MaxFuel}";
+            energyText.text = $"Energy: {resourceManager.Energy} / {resourceManager.MaxEnergy}";
+        fuelText.text = $"Fuel: {resourceManager.Fuel} / {resourceManager.MaxFuel}";
 
         float rawDistance = Vector2.Distance(rocketRigidbody.position, planetTransform.position);
         float altitude = Mathf.Max(0f, rawDistance - planetRadius);
