@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        resourceManager = Object.FindFirstObjectByType<ResourceManager>();
+        resourceManager = ResourceManager.Instance;
     }
 
     void Update()
