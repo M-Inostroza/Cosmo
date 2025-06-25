@@ -18,36 +18,89 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private float planetRadius = 50f;
 
-
     private ResourceManager resourceManager;
 
-    void Start()
+    private void Start()
     {
+        StartCoroutine(WaitForGameManager());
         resourceManager = ResourceManager.Instance;
+    }
+
+    private System.Collections.IEnumerator WaitForGameManager()
+    {
+        yield return new WaitUntil(() => GameManager.Instance != null);
+
+        GameManager.Instance.OnStateChanged += HandleStateChange;
+
+        if (GameManager.Instance.CurrentState == GameState.Fly)
+            gameObject.SetActive(true);
+        else
+            gameObject.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnStateChanged -= HandleStateChange;
+    }
+
+    private void HandleStateChange(GameState state)
+    {
+        gameObject.SetActive(state == GameState.Fly);
     }
 
     void Update()
     {
-        if (rocketRigidbody == null || speedText == null || gravityText == null) return;
+        if (!gameObject.activeInHierarchy || rocketRigidbody == null) return;
 
-        // Calculate and display speed  
+        UpdateSpeed();
+        UpdateGravity();
+        UpdateFuelAndEnergy();
+        UpdateAltitude();
+        UpdateOrbitZone();
+    }
+
+    private void UpdateSpeed()
+    {
+        if (speedText == null) return;
         float speed = rocketRigidbody.linearVelocity.magnitude;
         speedText.text = $"Speed: {speed:F1} m/s";
+    }
 
-        // Calculate and display gravity  
-        gravityText.text = $"Gravity: {rocketRigidbody.GetComponent<Rocket>().GetLastGravityForce().magnitude:F2} N";
+    private void UpdateGravity()
+    {
+        if (gravityText == null) return;
+        float gravity = rocketRigidbody.GetComponent<Rocket>().GetLastGravityForce().magnitude;
+        gravityText.text = $"Gravity: {gravity:F2} N";
+    }
 
-        if (resourceManager != null)
+    private void UpdateFuelAndEnergy()
+    {
+        if (resourceManager == null)
+        {
+            Debug.Log("Resource manager = Null");
+            return;
+        }
+
+        if (fuelText != null)
+            fuelText.text = $"Fuel: {resourceManager.Fuel} / {resourceManager.MaxFuel}";
+
+        if (energyText != null)
             energyText.text = $"Energy: {resourceManager.Energy} / {resourceManager.MaxEnergy}";
-        fuelText.text = $"Fuel: {resourceManager.Fuel} / {resourceManager.MaxFuel}";
+    }
+
+    private void UpdateAltitude()
+    {
+        if (altitudeText == null || planetTransform == null) return;
 
         float rawDistance = Vector2.Distance(rocketRigidbody.position, planetTransform.position);
         float altitude = Mathf.Max(0f, rawDistance - planetRadius);
         altitudeText.text = $"Altitude: {altitude:F1} m";
+    }
 
-        if (orbitZoneText != null && orbitManager != null)
-        {
-            orbitZoneText.text = $"Zone: {orbitManager.GetCurrentOrbitZone()}";
-        }
+    private void UpdateOrbitZone()
+    {
+        if (orbitZoneText == null || orbitManager == null) return;
+        orbitZoneText.text = $"Zone: {orbitManager.GetCurrentOrbitZone()}";
     }
 }

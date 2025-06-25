@@ -94,4 +94,12 @@ public class CameraFollow : MonoBehaviour
             rotationTween = null;
         });
     }
+
+    public void SetFollowTarget(Transform newTarget, Rigidbody2D newBody = null)
+    {
+        target = newTarget;
+        rocketBody = newBody;
+        Debug.Log("From follow");
+    }
+
 }

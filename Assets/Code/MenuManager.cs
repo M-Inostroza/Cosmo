@@ -1,6 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class MenuManager : MonoBehaviour
 {
@@ -15,10 +16,15 @@ public class MenuManager : MonoBehaviour
     [Header("Launch Pad")]
     [SerializeField] private Collider2D launchPadCollider;
     [SerializeField] private Button flyUI;
-    
+
+    [Header("Workshop")]
+    [SerializeField] private Collider2D workshopCollider;
+    [SerializeField] private Button driveUI;
+
     [Header("Menu")]
     [SerializeField] private Canvas modPanel;
     [SerializeField] private Canvas HUDPanel;
+    [SerializeField] private Canvas workshopPanel;
 
     [SerializeField] private ModManager modManager;
     [SerializeField] private ModActionPanel modActionPanel;
@@ -26,8 +32,22 @@ public class MenuManager : MonoBehaviour
     private Vector2 lastTouchPos;
     private bool isDragging = false;
 
-    void Start()
+    private void Start()
     {
+        StartCoroutine(WaitForGameManager());
+    }
+
+    private System.Collections.IEnumerator WaitForGameManager()
+    {
+        yield return new WaitUntil(() => GameManager.Instance != null);
+
+        GameManager.Instance.OnStateChanged += HandleStateChanged;
+
+        if (GameManager.Instance.CurrentState == GameState.Menu)
+            ActivateMenuUI();
+        else
+            gameObject.SetActive(false);
+
         PositionCameraAtStart();
     }
 
@@ -39,6 +59,8 @@ public class MenuManager : MonoBehaviour
         HandleTouchInput();
 #endif
         CheckLaunchPadClick();
+
+        CheckWorkshopClick();
     }
 
     void HandleMouseInput()
@@ -77,6 +99,28 @@ public class MenuManager : MonoBehaviour
             }
         }
     }
+
+    private void HandleStateChanged(GameState state)
+    {
+        if (state == GameState.Menu)
+        {
+            gameObject.SetActive(true);
+            ActivateMenuUI();
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    private void ActivateMenuUI()
+    {
+        canRotate = true;
+        modPanel.gameObject.SetActive(false);
+        flyUI.gameObject.SetActive(false);
+        HUDPanel.gameObject.SetActive(false);
+    }
+
 
     public void ShowModActionUI()
     {
@@ -117,9 +161,24 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    void CheckWorkshopClick()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 worldPos = menuCamera.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 point = new Vector2(worldPos.x, worldPos.y);
+
+            if (workshopCollider != null && workshopCollider.OverlapPoint(point))
+            {
+                workshopPanel.gameObject.SetActive(true);
+            }
+        }
+    }
+
     public void EnterFlyMode()
     {
-        Debug.Log("Entering Fly Mode...");
+        GameManager.Instance.ChangeState(GameState.Fly);
+
         ShowModActionUI();
         CameraFollow camFollow = Camera.main.GetComponent<CameraFollow>();
         if (camFollow != null)
@@ -144,6 +203,7 @@ public class MenuManager : MonoBehaviour
 
     public void PrepareForLaunch()
     {
+        GameManager.Instance.ChangeState(GameState.Preparation);
         canRotate = false;
 
         // Zoom camera
@@ -153,6 +213,13 @@ public class MenuManager : MonoBehaviour
 
         modPanel.gameObject.SetActive(true);
         flyUI.gameObject.SetActive(true);
+    }
+
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnStateChanged -= HandleStateChanged;
     }
 
 }
