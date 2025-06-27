@@ -99,7 +99,10 @@ public class CameraFollow : MonoBehaviour
     {
         target = newTarget;
         rocketBody = newBody;
-        Debug.Log("From follow");
     }
 
+    public void SetFollowRotation(bool onOff)
+    {
+        followRotation = onOff;
+    }
 }

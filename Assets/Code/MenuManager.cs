@@ -2,6 +2,8 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.InputSystem;
+using UnityEngineInternal;
 
 public class MenuManager : MonoBehaviour
 {
@@ -25,6 +27,10 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Canvas modPanel;
     [SerializeField] private Canvas HUDPanel;
     [SerializeField] private Canvas workshopPanel;
+
+    [Header("Input control")]
+    [SerializeField] private PlayerInput rocketInput;
+    [SerializeField] private PlayerInput roverInput;
 
     [SerializeField] private ModManager modManager;
     [SerializeField] private ModActionPanel modActionPanel;
@@ -89,9 +95,9 @@ public class MenuManager : MonoBehaviour
         {
             Touch touch = Input.GetTouch(0);
 
-            if (touch.phase == TouchPhase.Began)
+            if (touch.phase == UnityEngine.TouchPhase.Began)
                 lastTouchPos = touch.position;
-            else if (touch.phase == TouchPhase.Moved && canRotate)
+            else if (touch.phase == UnityEngine.TouchPhase.Moved && canRotate)
             {
                 Vector2 delta = touch.position - lastTouchPos;
                 lastTouchPos = touch.position;
@@ -170,15 +176,15 @@ public class MenuManager : MonoBehaviour
 
             if (workshopCollider != null && workshopCollider.OverlapPoint(point))
             {
-                workshopPanel.gameObject.SetActive(true);
+                PrepareRover();
             }
         }
     }
-
     public void EnterFlyMode()
     {
         GameManager.Instance.ChangeState(GameState.Fly);
-
+        roverInput.enabled = false;
+        rocketInput.enabled = true;
         ShowModActionUI();
         CameraFollow camFollow = Camera.main.GetComponent<CameraFollow>();
         if (camFollow != null)
@@ -213,6 +219,22 @@ public class MenuManager : MonoBehaviour
 
         modPanel.gameObject.SetActive(true);
         flyUI.gameObject.SetActive(true);
+    }
+
+    public void PrepareRover()
+    {
+        GameManager.Instance.ChangeState(GameState.Workshop);
+        canRotate = false;
+        roverInput.enabled = true;
+        rocketInput.enabled = false;
+        // Zoom camera
+        if (menuCamera != null)
+            menuCamera.DOOrthoSize(19.2f, 1f);
+            menuCamera.transform.DOMove(new Vector3(-37.5f, 620f, -10f), cameraZoomSpeed);
+            menuCamera.transform.DORotate(new Vector3(0f, 0f, 3.4f), cameraZoomSpeed);
+
+        workshopPanel.gameObject.SetActive(true);
+        driveUI.gameObject.SetActive(true);
     }
 
 
