@@ -8,6 +8,8 @@ TagManager:
   - Planet
   - Trash
   - Asteroid
+  - MiningZone
+  - OilGoal
   layers:
   - Default
   - TransparentFX

@@ -13,6 +13,7 @@ public class RoverController : MonoBehaviour
     [SerializeField] private CameraFollow cameraFollow;
     [SerializeField] private WheelJoint2D[] wheelJoints;
 
+    private SpriteRenderer miningDrill;
     private Rigidbody2D rb;
     private PlayerInput playerInput;
     private InputAction moveAction;
@@ -25,7 +26,7 @@ public class RoverController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerInput = GetComponent<PlayerInput>();
-
+        miningDrill = GetComponentInChildren<SpriteRenderer>();
         if (playerInput != null && playerInput.actions != null)
             moveAction = playerInput.actions["Move"];
     }
@@ -64,6 +65,21 @@ public class RoverController : MonoBehaviour
             motor.motorSpeed = currentMotorSpeed;
             joint.motor = motor;
             joint.useMotor = Mathf.Abs(moveInput) > 0.01f;
+        }
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log($"RoverController: Trigger entered with {collision.name}");
+        if (collision.CompareTag("MiningZone"))
+        {
+            Debug.Log("Mining zone found");
+            miningDrill.enabled = true;
+        } else
+        {
+            Debug.Log("Not a mining zone, disabling drill");
+            miningDrill.enabled = false;
         }
     }
 
