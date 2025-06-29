@@ -31,6 +31,7 @@ public class MenuManager : MonoBehaviour
     [Header("Input control")]
     [SerializeField] private PlayerInput rocketInput;
     [SerializeField] private PlayerInput roverInput;
+    [SerializeField] private PlayerInput drillInput;
 
     [SerializeField] private ModManager modManager;
     [SerializeField] private ModActionPanel modActionPanel;

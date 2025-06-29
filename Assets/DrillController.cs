@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DrillController : MonoBehaviour
 {
@@ -6,23 +7,43 @@ public class DrillController : MonoBehaviour
 
     private Vector2 input;
 
-    void Update()
+    private PlayerInput playerInput;
+    private InputAction moveAction;
+
+    private void Awake()
     {
-        input.x = Input.GetAxisRaw("Horizontal");
-        input.y = Input.GetAxisRaw("Vertical");
+        playerInput = GetComponent<PlayerInput>();
+        if (playerInput != null && playerInput.actions != null)
+            moveAction = playerInput.actions["Move"];
     }
 
-    void FixedUpdate()
+    private void OnEnable()
+    {
+        moveAction?.Enable();
+    }
+
+    private void OnDisable()
+    {
+        moveAction?.Disable();
+    }
+
+    private void Update()
+    {
+        input = moveAction?.ReadValue<Vector2>() ?? Vector2.zero;
+
+    }
+
+    private void FixedUpdate()
     {
         transform.Translate(input.normalized * moveSpeed * Time.fixedDeltaTime);
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("OilGoal"))
         {
             Debug.Log("Oil found!");
-            //EndMiningGame();
+            // EndMiningGame();
         }
     }
 }
