@@ -5,15 +5,28 @@ public class DirtPainter : MonoBehaviour
     [SerializeField] private RenderTexture dirtTexture;
     [SerializeField] private Material brushMaterial;
     [SerializeField] private Transform drill;
+    [SerializeField] private bool useDrillReference = false;
     [SerializeField] private float brushSize = 0.05f;
 
     private void Update()
     {
-        if (dirtTexture == null || brushMaterial == null || drill == null)
+        if (useDrillReference && drill != null)
+        {
+            Paint(drill.position);
+        }
+    }
+
+    /// <summary>
+    /// Paints the dirt texture at the given world position.
+    /// </summary>
+    /// <param name="worldPosition">World position of the drill/brush.</param>
+    public void Paint(Vector3 worldPosition)
+    {
+        if (dirtTexture == null || brushMaterial == null)
             return;
 
-        // Convert drill world position to local space of the dirt layer
-        Vector3 localPos = transform.InverseTransformPoint(drill.position);
+        // Convert world position to the local space of the dirt layer
+        Vector3 localPos = transform.InverseTransformPoint(worldPosition);
         Vector3 scale = transform.lossyScale;
         float u = (localPos.x / scale.x) + 0.5f;
         float v = (localPos.y / scale.y) + 0.5f;
