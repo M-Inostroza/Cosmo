@@ -1,21 +1,31 @@
 using UnityEngine;
 
-public class DirtInitializer : MonoBehaviour
+public class DirtPainter : MonoBehaviour
 {
-    public RenderTexture dirtTexture;
-    public Color dirtColor = new Color(0.4f, 0.2f, 0.1f, 1f); // brown dirt
+    [SerializeField] private RenderTexture dirtTexture;
+    [SerializeField] private Material brushMaterial;
+    [SerializeField] private Transform drill;
+    [SerializeField] private float brushSize = 0.05f;
 
-    private void Start()
+    private void Update()
     {
-        // Create a tiny texture filled with the dirt color
-        Texture2D fillTexture = new Texture2D(1, 1, TextureFormat.RGBA32, false);
-        fillTexture.SetPixel(0, 0, dirtColor);
-        fillTexture.Apply();
+        if (dirtTexture == null || brushMaterial == null || drill == null)
+            return;
 
-        // Blit it onto the RenderTexture
-        Graphics.Blit(fillTexture, dirtTexture);
+        // Convert drill world position to local space of the dirt layer
+        Vector3 localPos = transform.InverseTransformPoint(drill.position);
+        Vector3 scale = transform.lossyScale;
+        float u = (localPos.x / scale.x) + 0.5f;
+        float v = (localPos.y / scale.y) + 0.5f;
+        Vector2 brushPos = new Vector2(u, v);
 
-        // Destroy the texture asset to avoid memory leaks
-        DestroyImmediate(fillTexture);
+        brushMaterial.SetVector("_BrushPos", new Vector4(brushPos.x, brushPos.y, 0f, 0f));
+        brushMaterial.SetFloat("_BrushSize", brushSize);
+
+        var desc = dirtTexture.descriptor;
+        RenderTexture temp = RenderTexture.GetTemporary(desc);
+        Graphics.Blit(dirtTexture, temp);
+        Graphics.Blit(temp, dirtTexture, brushMaterial);
+        RenderTexture.ReleaseTemporary(temp);
     }
 }
