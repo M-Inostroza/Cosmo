@@ -43,7 +43,8 @@ public class DrillController : MonoBehaviour
         if (other.CompareTag("OilGoal"))
         {
             Debug.Log("Oil found!");
-            // EndMiningGame();
+            if (MiningManager.Instance != null)
+                MiningManager.Instance.RegisterOilFound();
         }
     }
 }
