@@ -13,6 +13,7 @@ public class MiningManager : MonoBehaviour
     [SerializeField] private DirtPainter dirtPainter;
     [SerializeField] private RenderTexture dirtTexture;
     [SerializeField] private bool clearDirtOnStart = true;
+    [SerializeField] private Color dirtColor = new Color(0.4f, 0.25f, 0.18f, 1f);
 
     [Header("Objectives")]
     [SerializeField] private int oilRequired = 1;
@@ -37,6 +38,8 @@ public class MiningManager : MonoBehaviour
     {
         if (clearDirtOnStart)
             ClearDirtTexture();
+
+        FillDirtTexture();
 
         EnablePainter(false); // disabled until mining starts
     }
@@ -74,6 +77,24 @@ public class MiningManager : MonoBehaviour
         RenderTexture.active = dirtTexture;
         GL.Clear(true, true, Color.clear);
         RenderTexture.active = active;
+    }
+
+    /// <summary>
+    /// Fills the dirt texture with the chosen color.
+    /// </summary>
+    private void FillDirtTexture()
+    {
+        if (dirtTexture == null)
+            return;
+
+        Material fillMat = new Material(Shader.Find("Unlit/Color"));
+        fillMat.color = dirtColor;
+        Graphics.Blit(Texture2D.whiteTexture, dirtTexture, fillMat);
+#if UNITY_EDITOR
+        DestroyImmediate(fillMat);
+#else
+        Destroy(fillMat);
+#endif
     }
 
     /// <summary>
