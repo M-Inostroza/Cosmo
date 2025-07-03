@@ -31,7 +31,6 @@ public class MenuManager : MonoBehaviour
     [Header("Input control")]
     [SerializeField] private PlayerInput rocketInput;
     [SerializeField] private PlayerInput roverInput;
-    [SerializeField] private PlayerInput drillInput;
 
     [SerializeField] private ModManager modManager;
     [SerializeField] private ModActionPanel modActionPanel;
@@ -193,7 +192,7 @@ public class MenuManager : MonoBehaviour
             camFollow.SnapToTargetSmooth(1f); // You can set any transition duration
         }
 
-        // Cambia el tamaÒo de la c·mara con DOTween
+        // Cambia el tama√±o de la c√°mara con DOTween
         if (menuCamera != null)
             menuCamera.DOOrthoSize(16f, 1f);
 
