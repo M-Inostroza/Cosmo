@@ -17674,6 +17674,8 @@ MonoBehaviour:
   wheelJoints:
   - {fileID: 662451235}
   - {fileID: 1171331127}
+  dirtPainter: {fileID: 0}
+  paintOnlyInMiningZone: 0
 --- !u!114 &744119353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28956,7 +28958,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -38394,6 +38396,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5757ede3544e7cd458e6c5dbbf286b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dirtPainter: {fileID: 0}
+  dirtTexture: {fileID: 8400000, guid: 6e2198f53285a8e479d2065c7b8b6ac9, type: 2}
+  clearDirtOnStart: 1
+  dirtColor: {r: 0.4, g: 0.25, b: 0.18, a: 1}
+  oilRequired: 1
 --- !u!4 &1503205474
 Transform:
   m_ObjectHideFlags: 0
@@ -41481,7 +41488,6 @@ MonoBehaviour:
   workshopPanel: {fileID: 1689384387}
   rocketInput: {fileID: 702293667}
   roverInput: {fileID: 744119353}
-  drillInput: {fileID: 0}
   modManager: {fileID: 702293669}
   modActionPanel: {fileID: 1742934922}
 --- !u!1 &1617154705
@@ -42831,7 +42837,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 18
+  m_SortingOrder: 6
   m_Sprite: {fileID: 3286163911610860551, guid: 69f163c64fd83a142b29d147fa09bbd0, type: 3}
   m_Color: {r: 0.16226411, g: 0.095721744, b: 0, a: 1}
   m_FlipX: 0
