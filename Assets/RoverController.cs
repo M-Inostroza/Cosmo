@@ -89,6 +89,8 @@ public class RoverController : MonoBehaviour
         Debug.Log("Mining zone found");
         miningDrill.enabled = true;
         inMiningZone = true;
+        if (MiningManager.Instance != null)
+            MiningManager.Instance.EnablePainter(true);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
