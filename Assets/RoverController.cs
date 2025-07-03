@@ -82,18 +82,13 @@ public class RoverController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!collision.CompareTag("MiningZone"))
+            return;
+
         Debug.Log($"RoverController: Trigger entered with {collision.name}");
-        if (collision.CompareTag("MiningZone"))
-        {
-            Debug.Log("Mining zone found");
-            miningDrill.enabled = true;
-            inMiningZone = true;
-        } else
-        {
-            Debug.Log("Not a mining zone, disabling drill");
-            miningDrill.enabled = false;
-            inMiningZone = false;
-        }
+        Debug.Log("Mining zone found");
+        miningDrill.enabled = true;
+        inMiningZone = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
