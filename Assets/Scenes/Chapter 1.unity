@@ -17626,6 +17626,7 @@ Transform:
   m_Children:
   - {fileID: 662451234}
   - {fileID: 1171331126}
+  - {fileID: 2479049975057331006}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 13.24}
 --- !u!50 &744119351
@@ -17674,8 +17675,8 @@ MonoBehaviour:
   wheelJoints:
   - {fileID: 662451235}
   - {fileID: 1171331127}
-  dirtPainter: {fileID: 0}
-  paintOnlyInMiningZone: 0
+  dirtPainter: {fileID: 1051218586}
+  paintOnlyInMiningZone: 1
 --- !u!114 &744119353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25837,6 +25838,55 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1051218585
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1051218587}
+  - component: {fileID: 1051218586}
+  m_Layer: 0
+  m_Name: Dirt Painter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1051218586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051218585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec8e9767e7163da40845f2231cfe60c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dirtTexture: {fileID: 8400000, guid: 6e2198f53285a8e479d2065c7b8b6ac9, type: 2}
+  brushMaterial: {fileID: 0}
+  drill: {fileID: 2479049975057331006}
+  useDrillReference: 1
+  brushSize: 3.07
+--- !u!4 &1051218587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051218585}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -147.7, y: 592.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1503205474}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1057008387
 GameObject:
   m_ObjectHideFlags: 0
@@ -38396,7 +38446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5757ede3544e7cd458e6c5dbbf286b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dirtPainter: {fileID: 0}
+  dirtPainter: {fileID: 1051218586}
   dirtTexture: {fileID: 8400000, guid: 6e2198f53285a8e479d2065c7b8b6ac9, type: 2}
   clearDirtOnStart: 1
   dirtColor: {r: 0.4, g: 0.25, b: 0.18, a: 1}
@@ -38416,6 +38466,7 @@ Transform:
   m_Children:
   - {fileID: 1744492906}
   - {fileID: 915721214}
+  - {fileID: 1051218587}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1506834507
@@ -55764,12 +55815,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1399542348452979058}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.9933326, w: -0.11528385}
-  m_LocalPosition: {x: -157.54, y: 591.49, z: -5}
-  m_LocalScale: {x: 1.9999999, y: 1.9999999, z: 1.9999999}
+  m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
+  m_LocalPosition: {x: 0.29, y: -3.66, z: -12.5}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 744119350}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!212 &5190382229494683779
 SpriteRenderer:
@@ -55816,7 +55867,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1529
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  m_Color: {r: 0.3886792, g: 0.3886792, b: 0.3886792, a: 1}
+  m_Color: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -55845,7 +55896,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 1447223177}
   - {fileID: 702293665}
-  - {fileID: 2479049975057331006}
   - {fileID: 744119350}
   - {fileID: 1659424707}
   - {fileID: 1669787840}
