@@ -17675,8 +17675,8 @@ MonoBehaviour:
   wheelJoints:
   - {fileID: 662451235}
   - {fileID: 1171331127}
-  dirtPainter: {fileID: 1051218586}
-  paintOnlyInMiningZone: 1
+  dirtPainter: {fileID: 915721217}
+  paintOnlyInMiningZone: 0
 --- !u!114 &744119353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21819,6 +21819,7 @@ GameObject:
   - component: {fileID: 915721214}
   - component: {fileID: 915721216}
   - component: {fileID: 915721215}
+  - component: {fileID: 915721217}
   m_Layer: 0
   m_Name: DirtLayer
   m_TagString: Untagged
@@ -21894,6 +21895,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 915721213}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &915721217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915721213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec8e9767e7163da40845f2231cfe60c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dirtTexture: {fileID: 8400000, guid: 6e2198f53285a8e479d2065c7b8b6ac9, type: 2}
+  brushMaterial: {fileID: 2100000, guid: aa59162898abe5e42b12b37c66d4297f, type: 2}
+  drill: {fileID: 2479049975057331006}
+  useDrillReference: 0
+  brushSize: 10.51
 --- !u!1 &919248703
 GameObject:
   m_ObjectHideFlags: 0
@@ -25838,55 +25856,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1051218585
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1051218587}
-  - component: {fileID: 1051218586}
-  m_Layer: 0
-  m_Name: Dirt Painter
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1051218586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1051218585}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec8e9767e7163da40845f2231cfe60c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dirtTexture: {fileID: 8400000, guid: 6e2198f53285a8e479d2065c7b8b6ac9, type: 2}
-  brushMaterial: {fileID: 2100000, guid: aa59162898abe5e42b12b37c66d4297f, type: 2}
-  drill: {fileID: 2479049975057331006}
-  useDrillReference: 0
-  brushSize: 3.07
---- !u!4 &1051218587
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1051218585}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -147.7, y: 592.4, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1503205474}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1057008387
 GameObject:
   m_ObjectHideFlags: 0
@@ -38446,7 +38415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5757ede3544e7cd458e6c5dbbf286b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dirtPainter: {fileID: 1051218586}
+  dirtPainter: {fileID: 0}
   dirtTexture: {fileID: 8400000, guid: 6e2198f53285a8e479d2065c7b8b6ac9, type: 2}
   clearDirtOnStart: 1
   dirtColor: {r: 0.4, g: 0.25, b: 0.18, a: 1}
@@ -38466,7 +38435,6 @@ Transform:
   m_Children:
   - {fileID: 1744492906}
   - {fileID: 915721214}
-  - {fileID: 1051218587}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1506834507
