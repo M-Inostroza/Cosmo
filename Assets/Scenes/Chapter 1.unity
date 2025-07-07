@@ -25868,9 +25868,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dirtTexture: {fileID: 8400000, guid: 6e2198f53285a8e479d2065c7b8b6ac9, type: 2}
-  brushMaterial: {fileID: 0}
+  brushMaterial: {fileID: 2100000, guid: aa59162898abe5e42b12b37c66d4297f, type: 2}
   drill: {fileID: 2479049975057331006}
-  useDrillReference: 1
+  useDrillReference: 0
   brushSize: 3.07
 --- !u!4 &1051218587
 Transform:
@@ -45294,7 +45294,7 @@ GameObject:
   - component: {fileID: 1744492907}
   m_Layer: 0
   m_Name: Oil goal
-  m_TagString: Untagged
+  m_TagString: OilGoal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
