@@ -153,19 +153,6 @@ public class MenuManager : MonoBehaviour
         menuCamera.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
     }
 
-    void CheckLaunchPadClick()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 worldPos = menuCamera.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 point = new Vector2(worldPos.x, worldPos.y);
-
-            if (launchPadCollider != null && launchPadCollider.OverlapPoint(point))
-            {
-                PrepareForLaunch();
-            }
-        }
-    }
 
     void CheckWorkshopClick()
     {

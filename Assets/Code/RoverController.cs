@@ -12,11 +12,7 @@ public class RoverController : MonoBehaviour
     [Header("References")]
     [SerializeField] private CameraFollow cameraFollow;
     [SerializeField] private WheelJoint2D[] wheelJoints;
-    [SerializeField] private DirtPainter dirtPainter;
-    [SerializeField] private bool paintOnlyInMiningZone = false;
 
-    private SpriteRenderer miningDrill;
-    private bool inMiningZone = false;
     private Rigidbody2D rb;
     private PlayerInput playerInput;
     private InputAction moveAction;
@@ -29,7 +25,6 @@ public class RoverController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerInput = GetComponent<PlayerInput>();
-        miningDrill = GetComponentInChildren<SpriteRenderer>();
         if (playerInput != null && playerInput.actions != null)
             moveAction = playerInput.actions["Move"];
     }
@@ -50,14 +45,6 @@ public class RoverController : MonoBehaviour
 
         Vector2 input = moveAction?.ReadValue<Vector2>() ?? Vector2.zero;
         moveInput = input.x;
-
-        if (miningDrill != null && miningDrill.enabled)
-        {
-            if (!paintOnlyInMiningZone || inMiningZone)
-            {
-                dirtPainter?.Paint(miningDrill.transform.position);
-            }
-        }
     }
 
     private void FixedUpdate()
@@ -87,19 +74,6 @@ public class RoverController : MonoBehaviour
 
         Debug.Log($"RoverController: Trigger entered with {collision.name}");
         Debug.Log("Mining zone found");
-        miningDrill.enabled = true;
-        inMiningZone = true;
-        if (MiningManager.Instance != null)
-            MiningManager.Instance.EnablePainter(true);
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("MiningZone"))
-        {
-            miningDrill.enabled = false;
-            inMiningZone = false;
-        }
     }
 
     public void ActivateRover()
